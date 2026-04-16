@@ -1,5 +1,0 @@
-El OrdenBuilder reduce el riesgo de errores porque encierra todo el proceso de validación y cálculo
-en un solo lugar, evitando que la vista se encargue de las acciones internas algoritmicas del sistema
-Así la vista sólo orquesta el flujo de interacción del usuario, mientras que el builder
-garantiza que la orden se construya siempre con todos los datos necesarios
-lo que hace el código más seguro, fácil de mantener y menos propenso a duplicar lógica incorrecta.
