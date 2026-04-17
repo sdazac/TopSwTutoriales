@@ -10,28 +10,36 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
 
-  web:
+  [cite_start]web_django: # El Monolito (v1) [cite: 91]
     build: .
-    command: gunicorn Tienda.wsgi:application --bind 0.0.0.0:8000
+    # Se usa gunicorn para producción [cite: 11, 90]
+    [cite_start]command: gunicorn Tienda.wsgi:application --bind 0.0.0.0:8000 [cite: 92]
     volumes:
-      - .:/app
+      - [cite_start].:/app [cite: 99]
     depends_on:
-      - db
+      - [cite_start]db [cite: 102]
     environment:
-      - DB_NAME=tienda_db
-      - DB_USER=postgres
-      - DB_PASSWORD=postgres
-      - DB_HOST=db
-      - DB_PORT=5432
+      - [cite_start]DB_NAME=tienda_db [cite: 94]
+      - [cite_start]DB_USER=postgres [cite: 113]
+      - [cite_start]DB_PASSWORD=postgres [cite: 114]
+      - [cite_start]DB_HOST=db [cite: 115]
+      - [cite_start]DB_PORT=5432 [cite: 116]
 
-  nginx:
-    image: nginx:1.25-alpine
+  pagos_flask: # El Microservicio (v2) - EL ESTRANGULADOR
+    build: ./microservicio_pagos 
     ports:
-      - "80:80"
+      - "5000:5000" # Expuesto solo para pruebas iniciales
+    # Si este microservicio requiere la DB, podrías agregar depends_on: - db
+
+  [cite_start]nginx: # El Cerebro del Tráfico [cite: 19]
+    [cite_start]image: nginx:1.25-alpine [cite: 119]
+    ports:
+      - [cite_start]"80:80" # Nginx es el único que da la cara a internet [cite: 120]
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - [cite_start]./nginx/nginx.conf:/etc/nginx/conf.d/default.conf [cite: 127]
     depends_on:
-      - web
+      - web_django
+      - pagos_flask
 
 volumes:
-  postgres_data:
+  [cite_start]postgres_data: [cite: 134]
